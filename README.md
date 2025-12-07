@@ -25,7 +25,7 @@ sample_without_mask.png
 sample_crowd.png
 datasets/ (not uploaded to GitHub) — local dataset used for training
 
-3. Dataset Download & Preparation
+2. Dataset Download & Preparation
 Dataset Source
 This project uses the Face Mask Detection dataset available from Kaggle:
 🔗 https://www.kaggle.com/datasets/andrewmvd/face-mask-detection
