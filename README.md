@@ -1,114 +1,106 @@
 # face-mask-detection
+This project implements a face mask detection system capable of identifying three classes:
+with_mask, without_mask, and mask_worn_incorrectly.
+A custom dataset was preprocessed, converted to YOLO format, and trained using YOLOv5.
 
 1. Project Overview
-This project implements an object detection model capable of identifying three classes of face mask usage:
-with_mask
-without_mask
-mask_weared_incorrect
-
-The model is trained on a dataset of annotated images, converted from XML (Pascal VOC format) to YOLO format using a custom preprocessing script. Training was performed using YOLOv5.
+The goal of this project is to develop a real-time model that can detect whether individuals are wearing face masks correctly. Applications include public safety monitoring, access control systems, and automated compliance checking.
+The model was trained and evaluated using YOLOv5.
+Training outputs such as confusion matrix, PR/F1 curves, and sample predictions are included in the repository.
 
 2. Repository Structure
-
-Project Files:
-
-prepare_dataset.py – Script for converting XML annotations to YOLO format and splitting the dataset
-mask.yaml – Dataset configuration file for YOLOv5
-best.pt – Final trained model weights
-results.png – Summary of training results
-confusion_matrix.png – Confusion matrix generated after evaluation
-PR_curve.png – Precision–Recall curve
-F1_curve.png – F1-score curve
-labels.jpg – Dataset label distribution visualization
-labels_correlogram.jpg – Label correlation heatmap
-train_batch0.jpg – Sample image from the training batch
-with mask.png – Example prediction (with mask)
-without mask.png – Example prediction (without mask)
-with and without mask.png – Example prediction (mixed)
-Face Mask Detection Report.docx – Full project report
-README.md – Project documentation
+face-mask-detection/
+│
+├── prepare_dataset.py          # Converts XML annotations to YOLO format and splits dataset
+├── mask.yaml                   # Dataset configuration file for YOLOv5
+├── best.pt                     # Final trained model weights
+│
+├── results/                    # Training results and evaluation plots
+│   ├── F1_curve.png
+│   ├── PR_curve.png
+│   ├── confusion_matrix.png
+│   ├── labels.jpg
+│   ├── labels_correlogram.jpg
+│   ├── results.png
+│   ├── sample crowd.png
+│   ├── sample with mask.png
+│   ├── sample without mask.png
+│   ├── train_batch0.jpg
+│   ├── train_batch1.jpg
+│   └── placeholder.txt         # Enables GitHub folder visibility
+│
+├── Face Mask Detection Report.docx   # Full project report
+└── README.md                   # Project documentation (this file)
 
 3. Setup Instructions
 Install Dependencies
-
-This project requires Python 3.8+.
-
-Run the following commands:
 pip install torch torchvision
 pip install pandas matplotlib seaborn
 pip install ultralytics
 
-
-Clone YOLOv5:
+Clone YOLOv5
 git clone https://github.com/ultralytics/yolov5
 cd yolov5
 pip install -r requirements.txt
 
 4. Dataset Preparation
-
-Place the following folders in the project directory:
-annotations/   # XML annotation files
-images/        # Raw images
-
-
-Run the dataset preparation script:
+XML annotations were converted to YOLO format using:
 python prepare_dataset.py
 
+This script performs:
+XML → YOLO text label conversion
+Dataset splitting into train / val / test
+Automatic folder organization
 
-This script performs the following actions:
-
-Converts XML annotations to YOLO format
-
-Creates 853 label files
-
-Splits data into train/val/test
-
-Builds the directory structure:
-
-datasets/mask/images/train/
-datasets/mask/images/val/
-datasets/mask/labels/train/
-datasets/mask/labels/val/
+The dataset contains 3 classes:
+with_mask
+without_mask
+mask_worn_incorrectly
 
 5. Training the Model
 
-Run YOLOv5 training:
+Training was performed with:
+python train.py --img 640 --batch 16 --epochs 30 --data mask.yaml --weights yolov5s.pt
 
-python train.py --img 640 --batch 16 --epochs 30 --data mask.yaml --weights yolov5s.pt --project runs/train --name mask_detector
+Output files include:
+best.pt – best performing model
+Confusion matrix
+F1 score curve
+Precision-Recall curve
+Train/validation batches
 
-After training, the following files are generated:
+6. Sample Predictions
+Examples of model predictions are included in:
 
-best.pt (best-performing weights)
+results/
+ ├── sample with mask.png
+ ├── sample without mask.png
+ └── sample crowd.png
 
-Training graphs and metrics
 
-Confusion matrix and curve plots
-
-6. Running Inference (Detection)
-
-To test the model on a single image:
-
-python detect.py --weights best.pt --img 640 --source path/to/image.jpg
-
-YOLOv5 saves prediction outputs to:
-
-runs/detect/exp/
-
-Sample prediction images are included in this repository.
+These demonstrate the model detecting multiple classes with confidence scores.
 
 7. Results Summary
+Key evaluation metrics:
+Metric	Value
+Precision (overall)	~0.52
+Recall (overall)	~0.69
+mAP@0.5	~0.69
+mAP@0.5:0.95	~0.44
 
-The model achieved the following:
+These values are based on the final validation results during training.
 
-High detection accuracy across the three mask classes
+8. How to Use the Model
 
-Clear visual predictions on crowded scenes
+To run inference:
+python detect.py --weights best.pt --img 640 --source your_image.jpg
+or for real-time camera input:
+python detect.py --weights best.pt --source 0
 
-Strong performance shown through PR curve, F1 curve, and confusion matrix
+The model will output bounding boxes and class predictions.
 
-See the training plots (PR_curve.png, F1_curve.png, confusion_matrix.png) for details.
+9. Acknowledgements
 
-8. Acknowledgements
-
-This project uses the YOLOv5 architecture provided by Ultralytics.
-Dataset conversion and training pipeline were implemented as part of a course project.
+YOlOv5 by Ultralytics
+Dataset sourced from open mask detection datasets
+Implementation adapted for academic use
