@@ -8,21 +8,7 @@ mask_weared_incorrect
 
 The model is trained on a dataset of annotated images, converted from XML (Pascal VOC format) to YOLO format using a custom preprocessing script. Training was performed using YOLOv5.
 
-2. Repository Structure
-├── prepare_dataset.py         # Script for converting XML to YOLO format and splitting dataset
-├── mask.yaml                  # Dataset configuration file for YOLOv5
-├── best.pt                    # Final trained model weights
-├── results.png                # Summary of training results
-├── confusion_matrix.png
-├── PR_curve.png
-├── F1_curve.png
-├── labels.jpg
-├── labels_correlogram.jpg
-├── train_batch0.jpg
-├── with mask.png              # Sample prediction (with mask)
-├── without mask.png           # Sample prediction (without mask)
-├── with and without mask.png  # Sample prediction (mixed)
-└── Face Mask Detection Report.docx
+<pre> face-mask-detection/ ├── prepare_dataset.py # Script for converting XML to YOLO format and splitting dataset ├── mask.yaml # Dataset configuration file for YOLOv5 ├── best.pt # Final trained model weights ├── results.png # Summary of training results ├── confusion_matrix.png # Confusion matrix ├── PR_curve.png # Precision–Recall curve ├── F1_curve.png # F1-score curve ├── labels.jpg # Label distribution visualization ├── labels_correlogram.jpg # Label correlation plot ├── train_batch0.jpg # Training batch sample ├── with mask.png # Sample prediction (with mask) ├── without mask.png # Sample prediction (without mask) ├── with and without mask.png # Sample prediction (mixed) ├── Face Mask Detection Report.docx # Full project report └── README.md # Project documentation </pre>
 
 3. Setup Instructions
 Install Dependencies
